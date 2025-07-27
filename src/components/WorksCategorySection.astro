@@ -21,7 +21,7 @@ const worksByType = works.reduce((acc, work) => {
 
 // 各ジャンルで日付順にソート
 for (const type of Object.keys(worksByType)) {
-  worksByType[type].sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  worksByType[type].sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
 }
 
 type WorkType = 'work' | 'oss' | 'presentation' | 'other'
