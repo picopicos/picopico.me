@@ -1,0 +1,60 @@
+# Content Management Guide
+
+## Content Collections
+
+Content is managed through Astro's content collections defined in [src/content.config.ts](mdc:src/content.config.ts).
+
+### Blog Posts (`src/content/posts/`)
+**Required frontmatter:**
+```yaml
+---
+title: "Post Title"           # String, required
+published: 2025-01-27        # Date, required (YYYY-MM-DD format)
+tags: ["tag1", "tag2"]       # Array of strings, optional (defaults to [])
+draft: false                 # Boolean, optional (defaults to false)
+description: "Brief desc"    # String, optional (for SEO)
+author: "Author Name"        # String, optional
+coverImage:                  # Object, optional
+  src: ./image.jpg          # Image file
+  alt: "Alt text"           # String
+---
+```
+
+### Work/Portfolio Items (`src/content/works/`)
+**Required frontmatter:**
+```yaml
+---
+title: "Project Title"       # String, required
+type: "work"                # Enum: "work" | "oss" | "presentation" | "other"
+date: 2025-01-01            # Date, required
+description: "Project desc"  # String, required
+link: "https://example.com"  # URL string, optional
+tags: ["React", "TypeScript"] # Array of strings, optional
+featured: true               # Boolean, optional (defaults to false)
+coverImage:                  # Object, optional
+  src: ./image.jpg          # Image file
+  alt: "Alt text"           # String
+---
+```
+
+### Special Content Files
+- [src/content/home.md](mdc:src/content/home.md) - Homepage content with optional avatar and GitHub calendar
+- [src/content/addendum.md](mdc:src/content/addendum.md) - Additional content section
+
+## Markdown Features
+
+### Supported Extensions
+- **MDX** - React components in markdown
+- **Math** - LaTeX expressions with KaTeX (`$inline$` and `$$block$$`)
+- **Code highlighting** - Syntax highlighting with Expressive Code
+- **Emoji shortcodes** - `:smile:` → 😄 (via remark-gemoji plugin)
+- **Admonitions** - `:::note`, `:::warning`, `:::tip` blocks
+- **External links** - Automatically open in new tabs
+- **Table of contents** - Auto-generated from headings
+
+### Best Practices
+- Use descriptive titles and meta descriptions for SEO
+- Add relevant tags for content discoverability  
+- Include cover images when appropriate (optimize with squoosh.app)
+- Use semantic heading structure (H1 → H2 → H3)
+- Write clear, concise descriptions for portfolio items

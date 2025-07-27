@@ -1,0 +1,48 @@
+# picopico.me Project Structure Guide
+
+This is an Astro-based personal website and blog with MDX support, TypeScript, Tailwind CSS, and React components.
+
+## Key Files & Directories
+
+### Configuration Files
+- [astro.config.mjs](mdc:astro.config.mjs) - Main Astro configuration with integrations and plugins
+- [src/site.config.ts](mdc:src/site.config.ts) - Site-wide settings (title, navigation, themes, social links)
+- [src/content.config.ts](mdc:src/content.config.ts) - Content collections schema definitions
+- [tsconfig.json](mdc:tsconfig.json) - TypeScript config with path aliases
+- [prettier.config.js](mdc:prettier.config.js) - Code formatting rules
+
+### Core Directory Structure
+- `src/pages/` - Astro file-based routing
+  - [src/pages/index.astro](mdc:src/pages/index.astro) - Homepage
+  - `src/pages/posts/[slug].astro` - Individual blog posts
+  - `src/pages/posts/[...page].astro` - Blog listing with pagination
+  - `src/pages/tags/[tag]/[...page].astro` - Tag-based post filtering
+  - `src/pages/social-cards/[slug].png.ts` - OG image generation
+  - `src/pages/rss.xml.ts` - RSS feed generation
+
+- `src/content/` - Content management with collections
+  - `src/content/posts/` - Blog posts (.md/.mdx files)
+  - `src/content/works/` - Portfolio/work items
+  - [src/content/home.md](mdc:src/content/home.md) - Homepage content
+  - [src/content/addendum.md](mdc:src/content/addendum.md) - Additional content section
+
+- `src/components/` - UI components (mainly .astro, some .tsx for React)
+- `src/layouts/` - Page layout templates
+- `src/plugins/` - Custom Remark/Rehype plugins
+- `src/styles/` - Global styles and Tailwind configuration
+
+### Path Aliases (from tsconfig.json)
+- `@components/*` → `src/components/*`
+- `@layouts/*` → `src/layouts/*`
+- `@types` → `src/types`
+- `@content` → `src/content.config`
+- `@utils` → `src/utils`
+
+### Technology Stack
+- **Framework**: Astro 5.x with static site generation
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS v4
+- **Content**: MDX with math support (KaTeX), code highlighting (Expressive Code)
+- **Search**: Pagefind for client-side search
+- **Icons**: Astro Icon integration
+- **Fonts**: JetBrains Mono Variable

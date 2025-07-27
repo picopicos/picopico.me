@@ -1,0 +1,118 @@
+---
+import { Icon } from 'astro-icon/components'
+import { dateString } from '@utils'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  works: CollectionEntry<'works'>[]
+  limit?: number
+}
+
+const { works, limit } = Astro.props
+
+// ジャンルごとにグループ化
+const worksByType = works.reduce((acc, work) => {
+  if (!acc[work.data.type]) {
+    acc[work.data.type] = []
+  }
+  acc[work.data.type].push(work)
+  return acc
+}, {} as Record<string, CollectionEntry<'works'>[]>)
+
+// 各ジャンルで日付順にソート
+for (const type of Object.keys(worksByType)) {
+  worksByType[type].sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+}
+
+type WorkType = 'work' | 'oss' | 'presentation' | 'other'
+
+const typeConfig: Record<WorkType, { label: string; icon: string; order: number }> = {
+  work: {
+    label: 'pixiv Inc.での仕事',
+    icon: 'palette',
+    order: 1
+  },
+  oss: {
+    label: 'OSS開発',
+    icon: 'github',
+    order: 2
+  },
+  presentation: {
+    label: 'カンファレンス登壇',
+    icon: 'sun',
+    order: 3
+  },
+  other: {
+    label: 'その他',
+    icon: 'moon',
+    order: 4
+  }
+}
+
+// typeConfigで定義された順序でソート
+const sortedTypes = Object.keys(worksByType).sort((a, b) => {
+  return (typeConfig[a as WorkType]?.order || 999) - (typeConfig[b as WorkType]?.order || 999)
+})
+---
+
+<section class="works-category-section space-y-8">
+  {sortedTypes.map(type => {
+    const categoryWorks = limit ? worksByType[type].slice(0, limit) : worksByType[type]
+    const config = typeConfig[type as WorkType]
+    
+    return (
+      <div class="category-group">
+        <div class="flex items-center gap-3 mb-4">
+          <Icon name={config?.icon || 'moon'} class="size-6 text-accent" />
+          <h3 class="text-lg font-semibold text-[var(--theme-h1)]">
+            {config?.label || type}
+          </h3>
+        </div>
+        
+        <ul class="space-y-3 ml-9">
+          {categoryWorks.map(work => (
+            <li class="flex items-start gap-3 group">
+              <div class="mt-1.5 size-2 bg-accent/60 rounded-full flex-shrink-0 group-hover:bg-accent transition-colors"></div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex-1 min-w-0">
+                    <h4 class="font-medium text-[var(--theme-h1)] group-hover:text-accent transition-colors">
+                      {work.data.link ? (
+                        <a href={work.data.link} target="_blank" rel="noopener noreferrer" class="hover:text-accent">
+                          {work.data.title} ↗
+                        </a>
+                      ) : (
+                        work.data.title
+                      )}
+                    </h4>
+                    <p class="text-sm text-foreground/80 mt-1 line-clamp-2">
+                      {work.data.description}
+                    </p>
+                    {work.data.tags && work.data.tags.length > 0 && (
+                      <div class="flex flex-wrap gap-1.5 mt-2">
+                        {work.data.tags.map(tag => (
+                          <span class="text-xs px-2 py-0.5 bg-accent/10 text-accent rounded-full">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  })}
+</section>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style> 

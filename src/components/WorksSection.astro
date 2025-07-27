@@ -1,0 +1,29 @@
+---
+import WorkPreview from './WorkPreview.astro'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  works: CollectionEntry<'works'>[]
+  limit?: number
+}
+
+const { works, limit } = Astro.props
+
+// Sort works by date (newest first) and featured status
+const sortedWorks = works.sort((a, b) => {
+  // Featured items come first
+  if (a.data.featured && !b.data.featured) return -1
+  if (!a.data.featured && b.data.featured) return 1
+  
+  // Then sort by date
+  return b.data.date.getTime() - a.data.date.getTime()
+})
+
+const displayWorks = limit ? sortedWorks.slice(0, limit) : sortedWorks
+---
+
+<section class="works-section">
+  {displayWorks.map((work) => (
+    <WorkPreview work={work} />
+  ))}
+</section>

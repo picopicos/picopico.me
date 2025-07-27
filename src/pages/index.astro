@@ -8,19 +8,21 @@ import BlockHeader from '@components/BlockHeader.astro'
 import HomeBanner from '@components/HomeBanner.astro'
 import siteConfig from '../site.config'
 import TagsSection from '@components/TagsSection.astro'
+import WorksCategorySection from '@components/WorksCategorySection.astro'
 
 const home = await getCollection('home')
 let HomeContent
 let homeAvatarImage
 let homeGithubCalendar
 if (home.length > 0) {
-  const homeEntry = home[0]
+  const homeEntry = home.filter((entry) => entry.id === 'home')[0]
   const { Content } = await render(homeEntry)
   HomeContent = Content
   homeAvatarImage = homeEntry.data.avatarImage
   homeGithubCalendar = homeEntry.data.githubCalendar
 }
 const sortedPosts = await getSortedPosts()
+const works = await getCollection('works')
 ---
 
 <Layout>
@@ -31,6 +33,8 @@ const sortedPosts = await getSortedPosts()
       </HomeBanner>
     )
   }
+  <BlockHeader>Works</BlockHeader>
+  <WorksCategorySection works={works} />
   {sortedPosts.length > 0 && (
     <>
       <BlockHeader>Tags</BlockHeader>

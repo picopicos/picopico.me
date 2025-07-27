@@ -1,0 +1,41 @@
+# Coding Conventions
+
+## Code Style (Prettier Configuration)
+- **No semicolons** (`semi: false`)
+- **Single quotes** (`singleQuote: true`)
+- **Trailing commas** for all valid locations (`trailingComma: 'all'`)
+- **Line width**: 90 characters (`printWidth: 90`)
+- **Indentation**: 2 spaces (`tabWidth: 2`, `useTabs: false`)
+
+## TypeScript Standards
+- Use **strict mode** (extends `astro/tsconfigs/strict`)
+- Prefer **path aliases** over relative imports:
+  - `@components/*` for components
+  - `@layouts/*` for layouts  
+  - `@types` for type definitions
+  - `@utils` for utilities
+- Use `verbatimModuleSyntax: true` for explicit import/export syntax
+
+## Astro Component Conventions
+- Use `.astro` extension for Astro components
+- Use `.tsx` only for React components requiring interactivity
+- Prefer Astro components over React when no client-side interactivity is needed
+- Place component scripts in the frontmatter (---) section
+- Use TypeScript for all component logic
+
+## React Components
+- Use `jsx: "react-jsx"` and `jsxImportSource: "react"`
+- Export as default for single component files
+- Use functional components with TypeScript interfaces for props
+
+## Import Organization
+1. External dependencies (npm packages)
+2. Astro/framework imports
+3. Internal components (using path aliases)
+4. Type-only imports (using `import type`)
+5. Relative imports (minimize usage)
+
+## File Naming
+- Use PascalCase for component files (e.g., `PostPreview.astro`)
+- Use kebab-case for content files (e.g., `tech-conference-2024.md`)
+- Use camelCase for utility functions and TypeScript files

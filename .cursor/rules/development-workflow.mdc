@@ -1,0 +1,83 @@
+# Development Workflow
+
+## Development Commands
+
+### Core Commands
+```bash
+# Start development server
+npm run dev
+
+# Production build
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+### Code Quality
+```bash
+# Format code with Prettier
+npx prettier --write .
+
+# TypeScript type checking
+npx tsc --noEmit
+
+# Build validation (run before commits)
+npm run build
+```
+
+## Build Process
+
+### Static Site Generation
+- Astro generates static HTML/CSS/JS
+- Content collections processed at build time
+- Social cards (OG images) generated via Satori
+- RSS feed and sitemap auto-generated
+
+### Performance Features
+- Code splitting and lazy loading
+- Image optimization (built-in Astro features)
+- Critical CSS inlining
+- Minimal JavaScript hydration
+
+## Content Workflow
+
+### Adding Blog Posts
+1. Create `.md` or `.mdx` file in `src/content/posts/`
+2. Add required frontmatter (title, published, tags)
+3. Write content using Markdown/MDX features
+4. Test locally with `npm run dev`
+5. Build and validate with `npm run build`
+
+### Adding Portfolio Items
+1. Create `.md` file in `src/content/works/`
+2. Use appropriate `type` field (work, oss, presentation, other)
+3. Set `featured: true` for homepage display
+4. Include external `link` if applicable
+
+## Plugin System
+
+### Custom Plugins (`src/plugins/`)
+- [remark-admonitions.ts](mdc:src/plugins/remark-admonitions.ts) - Note/warning blocks
+- [remark-gemoji.ts](mdc:src/plugins/remark-gemoji.ts) - Emoji shortcode support
+
+### Content Processing Pipeline
+1. Markdown/MDX parsing
+2. Remark plugins (content transformation)
+3. Rehype plugins (HTML transformation)
+4. Syntax highlighting with Expressive Code
+5. Math rendering with KaTeX
+
+## Deployment Considerations
+
+### Pre-deployment Checklist
+- [ ] `npm run build` succeeds without errors
+- [ ] TypeScript type checking passes
+- [ ] Content validates against schemas
+- [ ] Social cards generate properly
+- [ ] Search index builds correctly
+
+### Environment Requirements
+- Node.js (latest LTS)
+- Static hosting (Vercel, Netlify, etc.)
+- No server-side runtime needed

@@ -1,0 +1,98 @@
+# Component Development Guide
+
+## Astro Components
+
+### Structure
+```astro
+---
+// TypeScript frontmatter
+import type { Props } from '@types'
+import Component from '@components/Component.astro'
+
+interface Props {
+  title: string
+  optional?: boolean
+}
+
+const { title, optional = false } = Astro.props
+---
+
+<!-- HTML template -->
+<div class="component-class">
+  <h1>{title}</h1>
+  {optional && <p>Optional content</p>}
+</div>
+
+<style>
+  /* Scoped styles */
+  .component-class {
+    /* Use Tailwind classes in template, custom CSS here only when needed */
+  }
+</style>
+```
+
+### Best Practices
+- Use TypeScript interfaces for props
+- Destructure props in frontmatter with defaults
+- Prefer Tailwind classes over custom CSS
+- Use semantic HTML elements
+- Make components reusable and focused on single responsibility
+
+## React Components (Interactive)
+
+### When to Use React
+- Client-side interactivity required
+- State management needed
+- Event handlers for user interactions
+- Third-party React libraries (e.g., react-github-calendar)
+
+### Structure
+```tsx
+import type { FC } from 'react'
+
+interface Props {
+  data: string[]
+  onAction?: () => void
+}
+
+const ComponentName: FC<Props> = ({ data, onAction }) => {
+  return (
+    <div className="component-wrapper">
+      {/* Component JSX */}
+    </div>
+  )
+}
+
+export default ComponentName
+```
+
+### Integration with Astro
+- Add `client:load` directive for immediate hydration
+- Use `client:visible` for components below the fold
+- Use `client:idle` for non-critical interactive components
+
+## Component Categories
+
+### Layout Components (`src/layouts/`)
+- Page templates and structural components
+- Should be Astro components (`.astro`)
+
+### UI Components (`src/components/`)
+- **Static**: Astro components for presentation
+- **Interactive**: React components for user interaction
+- Follow single responsibility principle
+- Use TypeScript for all props
+
+### Existing Component Examples
+- `Header.astro` - Site navigation with theme switching
+- `PostPreview.astro` - Blog post cards
+- `Search.astro` - Site search functionality
+- `ReactGithubCalendar.tsx` - Interactive GitHub contribution calendar
+- `LightDarkAutoButton.astro` - Theme toggle with client-side logic
+
+## Styling Guidelines
+- Primary: Tailwind CSS classes
+- Custom CSS only when Tailwind is insufficient
+- Use CSS custom properties for theme-aware colors
+- Responsive design with Tailwind breakpoints
+- Dark/light mode support via theme system
