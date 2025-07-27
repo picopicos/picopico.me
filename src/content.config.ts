@@ -59,24 +59,12 @@ const addendumCollection = defineCollection({
 
 const worksCollection = defineCollection({
 	loader: glob({
-		pattern: ["**/*.md", "**/*.mdx"],
-		base: "./src/content/works",
+		pattern: ["works.md", "works.mdx"],
+		base: "./src/content",
 	}),
 	schema: ({ image }) =>
 		z.object({
 			title: z.string(),
-			type: z.enum(["work", "oss", "presentation", "other"]),
-			date: z.coerce.date(),
-			description: z.string(),
-			link: z.string().url().optional(),
-			tags: z.array(z.string()).optional().default([]),
-			featured: z.boolean().optional().default(false),
-			coverImage: z
-				.object({
-					src: image(),
-					alt: z.string(),
-				})
-				.optional(),
 		}),
 });
 

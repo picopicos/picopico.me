@@ -8,12 +8,11 @@ import BlockHeader from '@components/BlockHeader.astro'
 import HomeBanner from '@components/HomeBanner.astro'
 import siteConfig from '../site.config'
 import TagsSection from '@components/TagsSection.astro'
-import WorksCategorySection from '@components/WorksCategorySection.astro'
 
 const home = await getCollection('home')
-let HomeContent
-let homeAvatarImage
-let homeGithubCalendar
+let HomeContent: astroHTML.JSX.Element | undefined
+let homeAvatarImage: import('../types').FrontmatterImage | undefined
+let homeGithubCalendar: string | undefined
 if (home.length > 0) {
   const homeEntry = home.filter((entry) => entry.id === 'home')[0]
   const { Content } = await render(homeEntry)
@@ -21,8 +20,15 @@ if (home.length > 0) {
   homeAvatarImage = homeEntry.data.avatarImage
   homeGithubCalendar = homeEntry.data.githubCalendar
 }
+
 const sortedPosts = await getSortedPosts()
 const works = await getCollection('works')
+let WorksContent: astroHTML.JSX.Element | undefined
+if (works.length > 0) {
+  const worksEntry = works[0]
+  const { Content } = await render(worksEntry)
+  WorksContent = Content
+}
 ---
 
 <Layout>
@@ -34,7 +40,11 @@ const works = await getCollection('works')
     )
   }
   <BlockHeader>Works</BlockHeader>
-  <WorksCategorySection works={works} />
+  {WorksContent && (
+    <section class="works-section">
+      <WorksContent />
+    </section>
+  )}
   {sortedPosts.length > 0 && (
     <>
       <BlockHeader>Tags</BlockHeader>
