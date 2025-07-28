@@ -1,0 +1,68 @@
+---
+import ProfileCard from './ProfileCard.astro'
+import ReactGithubCalendar from './ReactGithubCalendar'
+import SocialLinks from './SocialLinks.astro'
+import siteConfig from '../site.config'
+import type { FrontmatterImage } from '../types'
+
+interface Props {
+  avatarImage?: FrontmatterImage
+  githubCalendar?: string
+}
+const { avatarImage, githubCalendar } = Astro.props
+---
+
+<div class="my-6">
+  <ProfileCard avatarImage={avatarImage} className="mb-2">
+    <slot />
+  </ProfileCard>
+  {
+    siteConfig.socialLinks && (
+      <div class="flex justify-center mb-8">
+        <SocialLinks socialLinks={siteConfig.socialLinks} />
+      </div>
+    )
+  }
+  {
+    githubCalendar && (
+      <>
+        <div class="github-stats mb-6 flex justify-center gap-4 flex-wrap">
+          <img
+            class="github-stat-img"
+            src={`https://raw.githubusercontent.com/${githubCalendar}/github-stats/master/generated/overview.svg`}
+            alt="GitHub Stats Overview"
+          />
+          <img
+            class="github-stat-img"
+            src={`https://raw.githubusercontent.com/${githubCalendar}/github-stats/master/generated/languages.svg`}
+            alt="GitHub Languages"
+          />
+        </div>
+        <div class="h-42">
+          <ReactGithubCalendar username={githubCalendar} client:only />
+        </div>
+      </>
+    )
+  }
+</div>
+
+<style is:global>
+  .github-calendar rect {
+    stroke: var(--theme-foreground) !important;
+    stroke-opacity: 0.1 !important;
+  }
+
+  /* GitHub Stats styling */
+  .github-stat-img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+
+  @media (min-width: 768px) {
+    .github-stat-img {
+      width: auto;
+      max-width: 320px;
+    }
+  }
+</style>
