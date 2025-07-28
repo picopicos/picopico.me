@@ -5,7 +5,7 @@ import { getCollection, render } from 'astro:content'
 import PostPreview from '@components/PostPreview.astro'
 import Pagination from '@components/Pagination.astro'
 import BlockHeader from '@components/BlockHeader.astro'
-import HomeBanner from '@components/HomeBanner.astro'
+import ProfileSection from '@components/ProfileSection.astro'
 import siteConfig from '../site.config'
 import TagsSection from '@components/TagsSection.astro'
 
@@ -34,9 +34,9 @@ if (works.length > 0) {
 <Layout>
   {
     HomeContent && (
-      <HomeBanner avatarImage={homeAvatarImage} githubCalendar={homeGithubCalendar}>
+      <ProfileSection avatarImage={homeAvatarImage} githubCalendar={homeGithubCalendar}>
         <HomeContent />
-      </HomeBanner>
+      </ProfileSection>
     )
   }
   <BlockHeader>Works</BlockHeader>
@@ -51,7 +51,7 @@ if (works.length > 0) {
       <TagsSection posts={sortedPosts}/>
       <BlockHeader>Latest Posts</BlockHeader>
       {sortedPosts.slice(0, siteConfig.pageSize).map((post) => <PostPreview post={post} />)}
-      <Pagination nextLink="/posts" nextText="Archive" />
+      <Pagination nextLink="/posts" nextText="Blog" />
     </>
   )}
 </Layout>

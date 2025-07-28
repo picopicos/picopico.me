@@ -42,13 +42,8 @@ const config: SiteConfig = {
 			url: "/",
 		},
 		{
-			name: "Archive",
+			name: "Blog",
 			url: "/posts",
-		},
-		{
-			name: "GitHub",
-			url: "https://github.com/picopicos",
-			external: true,
 		},
 	],
 	// The theming configuration for the site.
