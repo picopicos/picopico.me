@@ -7,6 +7,14 @@ interface Props {
 }
 
 const { title, description, link, tags = [] } = Astro.props
+
+let githubRepo = null
+if (link && link.includes('github.com')) {
+  const match = link.match(/github\.com\/([^\/]+\/[^\/]+)/)
+  if (match) {
+    githubRepo = match[1]
+  }
+}
 ---
 
 <li class="flex items-start gap-3 group">
@@ -14,15 +22,24 @@ const { title, description, link, tags = [] } = Astro.props
   <div class="flex-1 min-w-0">
     <div class="flex items-start justify-between gap-3">
       <div class="flex-1 min-w-0">
-        <h4 class="font-medium text-[var(--theme-h1)] group-hover:text-accent transition-colors">
-          {link ? (
-            <a href={link} target="_blank" rel="noopener noreferrer" class="hover:text-accent">
-              {title} ↗
-            </a>
-          ) : (
-            title
+        <div class="flex items-center gap-2 flex-wrap">
+          <h4 class="font-medium text-[var(--theme-h1)] group-hover:text-accent transition-colors">
+            {link ? (
+              <a href={link} target="_blank" rel="noopener noreferrer" class="hover:text-accent">
+                {title} ↗
+              </a>
+            ) : (
+              title
+            )}
+          </h4>
+          {githubRepo && (
+            <img
+              alt="GitHub stars"
+              src={`https://img.shields.io/github/stars/${githubRepo}?style=social`}
+              class="h-5"
+            />
           )}
-        </h4>
+        </div>
         {description && (
           <p class="text-sm text-foreground/80 mt-1 line-clamp-2">
             {description}
